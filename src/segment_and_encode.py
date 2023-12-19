@@ -6,7 +6,7 @@ from stego_lsb import encode_lsb_image, decode_lsb_image
 
 def segment_and_encode(image, size, secret, lsb_bit_length=1):
     # secret to pil
-    # secret = cv2.cvtColor(secret, cv2.COLOR_BGR2RGB)
+    secret = cv2.cvtColor(secret, cv2.COLOR_BGR2RGB)
     secret = Image.fromarray(secret)
     # resize image
     image = cv2.resize(image, (size, size))
@@ -33,9 +33,9 @@ def segment_and_encode(image, size, secret, lsb_bit_length=1):
 
         # crop the image based on coordinates
         object_image = image[y : y + h, x : x + w]
-
-        # object_image_pil = cv2.cvtColor(object_image, cv2.COLOR_BGR2RGB)
+        object_image_pil = cv2.cvtColor(object_image, cv2.COLOR_BGR2RGB)
         object_image_pil = Image.fromarray(object_image)
+        
         # encode image with secret
         object_image_encoded = encode_lsb_image(
             object_image_pil, secret, f"watermarked_image{i}.png", lsb_bit_length
@@ -44,8 +44,8 @@ def segment_and_encode(image, size, secret, lsb_bit_length=1):
         # object_image_encoded = cv2.cvtColor(
         #     np.array(object_image_encoded), cv2.COLOR_RGB2BGR
         # )
-        object_image_encoded = np.array(object_image_encoded)
-        object_image_encoded = cv2.cvtColor(object_image_encoded, cv2.COLOR_BGR2RGB)
+        object_image_encoded = np.asarray(object_image_encoded)
+        # object_image_encoded = cv2.cvtColor(object_image_encoded, cv2.COLOR_RGB2BGR)
         # in the original image, the extracted object_image shall be replaced with object_image_encoded
         # replace object_image with object_image_encoded
 
@@ -55,8 +55,17 @@ def segment_and_encode(image, size, secret, lsb_bit_length=1):
     return image
 
 
-# img = cv2.imread("2.png")
-# watermark = cv2.imread("kagurabachi.jpg")
-# watermark = cv2.resize(watermark, (500, 500))
-# output = segment_and_encode(img, 500, watermark)
-# cv2.imwrite("output.png", output)
+# test_dataset = []
+# test_dataset_watermarked = []
+# size = 254
+# watermark = cv2.imread("../sample_img/kagurabachi.jpg")
+# watermark = cv2.resize(watermark, (size, size))
+
+# filename = f"../test/1.png"
+# img = cv2.imread(filename)
+# img = cv2.resize(img, (size, size))
+# img = np.uint8(img)  # change depth to 8 bit
+# output = segment_and_encode(img, size, watermark, 4)
+# cv2.imshow("original", img)
+# cv2.imshow("watermarked", output)
+# cv2.waitKey(0)
