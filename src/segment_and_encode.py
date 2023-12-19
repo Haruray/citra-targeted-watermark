@@ -41,7 +41,7 @@ def segment_and_encode(image, size, secret, lsb_bit_length=1):
         )
         # decode
         watermarks.append(
-            decode_lsb_image(object_image_encoded, f"watermarked_image{i}.png")
+            np.asarray(decode_lsb_image(object_image_encoded, f"watermarked_image{i}.png"))
         )
         object_image_encoded = np.asarray(object_image_encoded)
         # in the original image, the extracted object_image shall be replaced with object_image_encoded
