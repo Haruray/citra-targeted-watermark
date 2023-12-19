@@ -33,7 +33,6 @@ def encode_lsb_image(
         new_pixel = (new_r, new_g, new_b)
         output.putpixel((i % image.width, i // image.width), new_pixel)
 
-    # output.save(output_path)
     return output
 
 
@@ -47,19 +46,4 @@ def decode_lsb_image(encoded_image: Image, output_path: str):
         secret_data.append(watermark_pixel)
     secret = Image.new("L", encoded_image.size)
     secret.putdata(secret_data)
-    # secret.save(output_path)
-    # print(f"Watermark saved to: {output_path}")
     return secret
-
-
-# Example usage of the watermark_image function:
-
-# Watermark an image using a watermark image
-# image_path = "1.png"
-# watermark_path = "kagurabachi.jpg"
-# output_path = "watermarked_image.png"
-# image = Image.open(image_path)
-# watermark = Image.open(watermark_path)
-# encode_lsb_image(image, watermark, output_path)
-# decode_lsb_image(Image.open(output_path), "watermark.png")
-# print(f"Watermarked image saved to: {output_path}")
