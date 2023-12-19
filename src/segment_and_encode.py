@@ -1,13 +1,14 @@
 import cv2
 import numpy as np
 from PIL import Image
-from stego_lsb import encode_lsb_image
+from stego_lsb import encode_lsb_image, decode_lsb_image
 
 
 def segment_and_encode(image, size, secret, lsb_bit_length=1):
     # secret to pil
     secret = cv2.cvtColor(secret, cv2.COLOR_BGR2RGB)
     secret = Image.fromarray(secret)
+    watermarks = []
     # resize image
     image = cv2.resize(image, (size, size))
     gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -33,10 +34,14 @@ def segment_and_encode(image, size, secret, lsb_bit_length=1):
         object_image = image[y : y + h, x : x + w]
         object_image_pil = cv2.cvtColor(object_image, cv2.COLOR_BGR2RGB)
         object_image_pil = Image.fromarray(object_image)
-        
+
         # encode image with secret
         object_image_encoded = encode_lsb_image(
             object_image_pil, secret, f"watermarked_image{i}.png", lsb_bit_length
+        )
+        # decode
+        watermarks.append(
+            decode_lsb_image(object_image_encoded, f"watermarked_image{i}.png")
         )
         object_image_encoded = np.asarray(object_image_encoded)
         # in the original image, the extracted object_image shall be replaced with object_image_encoded
@@ -45,4 +50,4 @@ def segment_and_encode(image, size, secret, lsb_bit_length=1):
         image[y : y + h, x : x + w] = object_image_encoded
 
         # bounding box and text
-    return image
+    return image, watermarks[0]
