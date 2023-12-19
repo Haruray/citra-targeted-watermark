@@ -41,7 +41,9 @@ def segment_and_encode(image, size, secret, lsb_bit_length=1):
             object_image_pil, secret, f"watermarked_image{i}.png", lsb_bit_length
         )
         # object_image_encoded to cv2
-        object_image_encoded = np.array(object_image_encoded)
+        object_image_encoded = cv2.cvtColor(
+            np.array(object_image_encoded), cv2.COLOR_RGB2BGR
+        )
         # in the original image, the extracted object_image shall be replaced with object_image_encoded
         # replace object_image with object_image_encoded
 
