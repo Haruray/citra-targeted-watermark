@@ -45,6 +45,7 @@ def segment_and_encode(image, size, secret, lsb_bit_length=1):
         #     np.array(object_image_encoded), cv2.COLOR_RGB2BGR
         # )
         object_image_encoded = np.array(object_image_encoded)
+        object_image_encoded = cv2.cvtColor(object_image_encoded, cv2.COLOR_BGR2RGB)
         # in the original image, the extracted object_image shall be replaced with object_image_encoded
         # replace object_image with object_image_encoded
 
