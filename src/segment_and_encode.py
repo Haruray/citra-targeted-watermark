@@ -6,7 +6,7 @@ from stego_lsb import encode_lsb_image, decode_lsb_image
 
 def segment_and_encode(image, size, secret, lsb_bit_length=1):
     # secret to pil
-    secret = cv2.cvtColor(secret, cv2.COLOR_BGR2RGB)
+    # secret = cv2.cvtColor(secret, cv2.COLOR_BGR2RGB)
     secret = Image.fromarray(secret)
     # resize image
     image = cv2.resize(image, (size, size))
@@ -34,7 +34,7 @@ def segment_and_encode(image, size, secret, lsb_bit_length=1):
         # crop the image based on coordinates
         object_image = image[y : y + h, x : x + w]
 
-        object_image_pil = cv2.cvtColor(object_image, cv2.COLOR_BGR2RGB)
+        # object_image_pil = cv2.cvtColor(object_image, cv2.COLOR_BGR2RGB)
         object_image_pil = Image.fromarray(object_image)
         # encode image with secret
         object_image_encoded = encode_lsb_image(
