@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 
+
 def encode_lsb_image(
     image: Image, secret: Image, output_path: str, lsb_bit_length: int = 1
 ):
@@ -46,8 +47,9 @@ def decode_lsb_image(encoded_image: Image, output_path: str):
         secret_data.append(watermark_pixel)
     secret = Image.new("L", encoded_image.size)
     secret.putdata(secret_data)
-    secret.save(output_path)
-    print(f"Watermark saved to: {output_path}")
+    # secret.save(output_path)
+    # print(f"Watermark saved to: {output_path}")
+    return secret
 
 
 # Example usage of the watermark_image function:
